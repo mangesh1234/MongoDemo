@@ -6,7 +6,7 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
 var morgan     = require('morgan');
-
+var connection = require('./connection');
 // configure app
 app.use(morgan('dev')); // log requests to the console
 
@@ -14,19 +14,20 @@ app.use(morgan('dev')); // log requests to the console
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port     = process.env.PORT || 8080; // set our port
+var port  = process.env.PORT || 8080; // set our port
 
-// DATABASE SETUP
-var mongoose   = require('mongoose');
-mongoose.connect('mongodb://node:node@novus.modulusmongo.net:27017/Iganiq8o'); // connect to our database
+// // DATABASE SETUP
+// var mongoose   = require('mongoose');
+// mongoose.connect('mongodb://node:node@novus.modulusmongo.net:27017/Iganiq8o'); // connect to our database
 
-// Handle the connection event
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+// // Handle the connection event
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
 
-db.once('open', function() {
-  console.log("DB connection alive");
-});
+// db.once('open', function() {
+//   console.log("DB connection alive");
+// });
+connection.connectToMongo();
 
 // Bear models lives here
 var Bear     = require('./app/models/bear');
